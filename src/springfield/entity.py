@@ -73,6 +73,7 @@ class EntityMetaClass(type):
 
         return new_class
 
+
 class Entity(EntityBase):
     __metaclass__ = EntityMetaClass
     __values__ = None

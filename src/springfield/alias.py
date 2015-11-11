@@ -1,5 +1,6 @@
 from springfield.fields import EntityField
 
+
 class AliasDescriptor(object):
     """
     A descriptor that handles setting and getting :class:`Alias` values
@@ -23,6 +24,7 @@ class AliasDescriptor(object):
 
         # Get value from document instance if available, if not use default
         value = instance.__values__.get(self.name)
+        from springfield import Empty  # Must import locally to avoid circular import
         if value is Empty:
             value = self.field.default
             # Allow callable default values
@@ -36,12 +38,14 @@ class AliasDescriptor(object):
         """
         Set a value for this :class:`Alias`.
         """
+        from springfield import Empty  # Must import locally to avoid circular import
         if value is Empty:
             if self.name in instance.__values__:
                 del instance.__values__[self.name]
         else:
             instance.__values__[self.name] = self.field.adapt(value)
         instance.__changes__.add(self.name)
+
 
 class Alias(object):
     """
